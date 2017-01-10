@@ -1,15 +1,16 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+$:.push "#{File.expand_path('..', __FILE__)}/lib"
+#lib = File.expand_path('../lib', __FILE__)
+#
 require 'hyperfocal/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "hyperfocal"
   spec.version       = Hyperfocal::VERSION
-  spec.authors       = ["Aaron Miler"]
-  spec.email         = ["aaron@pineworks.io"]
+  spec.authors       = ["Pineworks Inc."]
+  spec.email         = ["support@pineworks.io"]
 
-  spec.summary       = %q{A Ruby gem for reporting to hyperfocal.io}
+  spec.summary       = "An event reporting app for Ruby"
   spec.homepage      = "http://hyperfocal.io"
   spec.license       = "MIT"
 
@@ -22,13 +23,22 @@ Gem::Specification.new do |spec|
       "public gem pushes."
   end
 
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
-  end
+  files  = `git ls-files`.split("\n") rescue []
+  files &= (
+    Dir['lib/**/*.{rb}'] +
+    Dir['*.md']
+  )
 
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.files         = files
+
+#  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
+#    f.match(%r{^(test|spec|features)/})
+#  end
+
+  spec.executables   = %w[hyperfocal]
   spec.require_paths = ["lib"]
+
+  spec.add_dependency "thor"
 
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"

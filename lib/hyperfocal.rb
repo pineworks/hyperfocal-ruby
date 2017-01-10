@@ -1,3 +1,4 @@
+require "yaml"
 require "hyperfocal/version"
 require "hyperfocal/transmitter"
 
@@ -8,12 +9,13 @@ module Hyperfocal
     def configure
       self.configuration ||= Configuration.new
       yield(configuration)
+      configuration.host = 'https://api.hyperfocal.io'
     end
 
     def host
-      raise 'App ID Not Set' if self.configuration.app_id.nil?
+      raise 'App ID Not Set' if configuration.app_id.nil?
 
-      self.configuration.host + '/track/' + self.configuration.app_id
+      configuration.host + '/track/' + configuration.app_id
     end
 
     def event(event, attrs = {})

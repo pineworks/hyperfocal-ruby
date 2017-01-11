@@ -9,7 +9,6 @@ module Hyperfocal
     def configure
       self.configuration ||= Configuration.new
       yield(configuration)
-      configuration.host = 'https://api.hyperfocal.io'
     end
 
     def host

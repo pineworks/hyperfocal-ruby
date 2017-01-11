@@ -3,8 +3,13 @@ module Hyperfocal
     module_function
 
     def send(type, params)
-      url = URI(url_for(type))
-      Net::HTTP.post_form(url, params)
+      if Hyperfocal.configuration.environments.include?(Hyperfocal.configuration.env)
+        url = URI(url_for(type))
+        params.merge!(environment: Hyperfocal.configuration.env)
+        Net::HTTP.post_form(url, params)
+      else
+        Hyperfocal.logger.info "Logging #{type} params: #{params}"
+      end
     end
 
     def url_for(type)

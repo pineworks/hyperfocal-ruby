@@ -49,6 +49,8 @@ module Hyperfocal
         f.puts <<-CONF
 Hyperfocal.configure do |config|
   config.app_id = '#{token}'
+  # Configure Tracking Environments, as an array
+  # config.environments = [ 'production' ]
 end
         CONF
       end

@@ -45,14 +45,22 @@ module Hyperfocal
       thr.join
       thr.exit
     end
+
+    def logger
+      Logger.new(STDOUT)
+    end
   end
 
   class Configuration
     attr_accessor :app_id
+    attr_accessor :environments
+    attr_reader   :env
     attr_reader   :host
 
     def initialize
-      @host = 'https://api.hyperfocal.io'
+      @env = (ENV['RAILS_ENV'] || ENV['RACK_ENV'])
+      @host = 'https://api.hyperfocal.io'.freeze
+      @environments = %w[ production ].freeze
     end
   end
 end

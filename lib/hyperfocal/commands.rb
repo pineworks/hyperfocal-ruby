@@ -48,7 +48,7 @@ module Hyperfocal
       File.open(initializer_path, 'w') do |f|
         f.puts <<-CONF
 Hyperfocal.configure do |config|
-  config.app_id = #{token}
+  config.app_id = '#{token}'
 end
         CONF
       end

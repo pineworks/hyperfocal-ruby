@@ -31,13 +31,6 @@ module Hyperfocal
       end
     end
 
-    def user(attrs)
-      send_request do
-        user_params = { user: attrs }
-        Transmitter.send('user', user_params)
-      end
-    end
-
     def send_request(&block)
       thr = Thread.new do
         yield

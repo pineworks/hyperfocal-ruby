@@ -1,4 +1,5 @@
 require "yaml"
+require "logger"
 require "hyperfocal/version"
 require "hyperfocal/transmitter"
 

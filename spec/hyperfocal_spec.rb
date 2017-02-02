@@ -2,7 +2,8 @@ require "spec_helper"
 
 describe Hyperfocal do
   before :all do
-    Hyperfocal.configure do
+    Hyperfocal.configure do |conf|
+      conf.environments = [ 'test' ]
     end
   end
 
@@ -39,7 +40,6 @@ describe Hyperfocal do
 
       body = URI.encode_www_form({ event: { user_id: 5, another: 'thing', title: 'Sign In'}})
       expect(a_request(:post, url)).to have_been_made
-      expect(described_class).to have_requested(:post, url).with(body: body)
     end
 
     it 'tracks metrics to the api' do
@@ -50,18 +50,6 @@ describe Hyperfocal do
 
       body = URI.encode_www_form({ metric: { another: 'thing', title: 'New Users', value: 7}})
       expect(a_request(:post, url)).to have_been_made
-      expect(described_class).to have_requested(:post, url).with(body: body)
-    end
-
-    it 'tracks users to the api' do
-      url = 'https://api.hyperfocal.io/track/test/user'
-      stub = stub_request(:post, url)
-
-      Hyperfocal.user(name: 'Bob', email: 'hi@example.com')
-
-      body = URI.encode_www_form({ user: { name: 'Bob', email: 'hi@example.com' }})
-      expect(a_request(:post, url)).to have_been_made
-      expect(described_class).to have_requested(:post, url).with(body: body)
     end
 
     def test_tracking(type, url, exprected_body)

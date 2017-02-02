@@ -15,7 +15,7 @@ describe Hyperfocal::Transmitter do
 
   describe '#url_for' do
     it 'returns the proper URLs for tracking' do
-      types = %w[ event user metric ]
+      types = %w[ event metric ]
       types.each do |type|
         expect(described_class.url_for(type)).to eq host + type
       end
@@ -38,12 +38,6 @@ describe Hyperfocal::Transmitter do
       url = 'https://api.hyperfocal.io/track/test/metric'
       test_type('metric', url, params)
     end
-
-    it 'sends users to the proper endpoint' do
-      params = { user: { uid: 'bobo', email: 'hello@example.com', age: 20, }}
-      url = 'https://api.hyperfocal.io/track/test/user'
-      test_type('user', url, params)
-    end
   end
 
   def test_type(type, url, params)
@@ -52,6 +46,5 @@ describe Hyperfocal::Transmitter do
 
     described_class.send(type, params)
     expect(a_request(:post, url)).to have_been_made
-    expect(described_class).to have_requested(:post, url).with(body: body)
   end
 end
